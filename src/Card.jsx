@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 
 export default class Card extends React.Component {
   render() {
-    return <div id={ this.props.id }>Some card.</div>;
+    return <div>
+        <h3>{ this.props.id }</h3>
+        <img src={ this.props.imgsrc }></img>
+    </div>;
   }
 }
 
 Card.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  imgsrc: PropTypes.string.isRequired
 }

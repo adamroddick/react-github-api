@@ -24080,10 +24080,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
@@ -24093,6 +24089,23 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var root = document.querySelector('div#root');
+var data = [{
+  key: 1234,
+  id: 'Card 1',
+  imgsrc: 'http://placehold.it/75'
+}, {
+  key: 5678,
+  id: 'Card 2',
+  imgsrc: 'http://placehold.it/100'
+}];
+
+var CardList = function CardList(props) {
+  return _react.default.createElement("div", null, props.cards.map(function (card) {
+    return _react.default.createElement(_Card.default, card);
+  }));
+};
 
 var App =
 /*#__PURE__*/
@@ -24109,23 +24122,13 @@ function (_React$Component) {
     return _this;
   }
 
-  _createClass(App, [{
-    key: "render",
-    value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement("div", null, _react.default.createElement(_Message.default, {
-        message: "Hello React"
-      })), _react.default.createElement("div", null, _react.default.createElement(_Card.default, {
-        id: "card1"
-      })));
-    }
-  }]);
-
   return App;
-}(_react.default.Component);
+}(_react.default.Component); //ReactDOM.render(<App cards={data}/>, root);
 
-var root = document.querySelector('div#root');
 
-_reactDom.default.render(_react.default.createElement(App, null), root);
+_reactDom.default.render(_react.default.createElement(CardList, {
+  cards: data
+}), root);
 
 },{"./Card.jsx":21,"./Message.jsx":22,"react":13,"react-dom":10}],21:[function(require,module,exports){
 "use strict";
@@ -24173,9 +24176,9 @@ function (_React$Component) {
   _createClass(Card, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", {
-        id: this.props.id
-      }, "Some card.");
+      return _react.default.createElement("div", null, _react.default.createElement("h3", null, this.props.id), _react.default.createElement("img", {
+        src: this.props.imgsrc
+      }));
     }
   }]);
 
@@ -24184,7 +24187,8 @@ function (_React$Component) {
 
 exports.default = Card;
 Card.propTypes = {
-  id: _propTypes.default.string.isRequired
+  id: _propTypes.default.string.isRequired,
+  imgsrc: _propTypes.default.string.isRequired
 };
 
 },{"prop-types":6,"react":13}],22:[function(require,module,exports){
