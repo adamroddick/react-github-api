@@ -2,8 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import Message from './Message.jsx';
 import Card from './Card.jsx';
+import Form from './Form.jsx';
 
 const root = document.querySelector('div#root');
+
+var fml = {}
 
 const CardList = (props) => {
     return (
@@ -13,43 +16,22 @@ const CardList = (props) => {
     );
 }
 
-class Form extends React.Component {
-  submitAction = (event) => {
-    event.preventDefault();
-    console.log(this.userNameInput.value)
-
-  }
-  
-  render() {
-    return (
-      <form onSubmit={this.submitAction}>
-        <input ref={(input) => this.userNameInput = input} type="text" placeholder="Github username"></input>
-        <button>Add</button>
-      </form>
-    )
-  }
-}
-
 class App extends React.Component {
   state = {
-    data: [
-      {
-        key: 1234,
-        id: 'Card 1',
-        imgsrc: 'http://placehold.it/100'
-      },
-      {
-        key: 5678,
-        id: 'Card 2',
-        imgsrc: 'http://placehold.it/100'
-      }
-    ]
+    data: []
+  }
+
+  createCard = (json) => {
+    json.key = json.id // to satisfy Reacts requirement for a unique key
+    this.setState(prevState => ({
+      data: prevState.data.concat(json)
+    }))
   }
 
   render() {
     return (
       <div>
-        <Form />
+        <Form onSubmit={this.createCard}/>
         <CardList cards={this.state.data}/>
       </div>
     )

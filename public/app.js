@@ -24072,6 +24072,8 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 var _Card = _interopRequireDefault(require("./Card.jsx"));
 
+var _Form = _interopRequireDefault(require("./Form.jsx"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -24095,6 +24097,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var root = document.querySelector('div#root');
+var fml = {};
 
 var CardList = function CardList(props) {
   return _react.default.createElement("div", null, props.cards.map(function (card) {
@@ -24102,89 +24105,47 @@ var CardList = function CardList(props) {
   }));
 };
 
-var Form =
+var App =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Form, _React$Component);
+  _inherits(App, _React$Component);
 
-  function Form() {
+  function App() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, Form);
+    _classCallCheck(this, App);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Form)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(App)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "submitAction", function (event) {
-      event.preventDefault();
-      console.log(_this.userNameInput.value);
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
+      data: []
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "createCard", function (json) {
+      json.key = json.id; // to satisfy Reacts requirement for a unique key
+
+      _this.setState(function (prevState) {
+        return {
+          data: prevState.data.concat(json)
+        };
+      });
     });
 
     return _this;
   }
 
-  _createClass(Form, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      return _react.default.createElement("form", {
-        onSubmit: this.submitAction
-      }, _react.default.createElement("input", {
-        ref: function ref(input) {
-          return _this2.userNameInput = input;
-        },
-        type: "text",
-        placeholder: "Github username"
-      }), _react.default.createElement("button", null, "Add"));
-    }
-  }]);
-
-  return Form;
-}(_react.default.Component);
-
-var App =
-/*#__PURE__*/
-function (_React$Component2) {
-  _inherits(App, _React$Component2);
-
-  function App() {
-    var _getPrototypeOf3;
-
-    var _this3;
-
-    _classCallCheck(this, App);
-
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-
-    _this3 = _possibleConstructorReturn(this, (_getPrototypeOf3 = _getPrototypeOf(App)).call.apply(_getPrototypeOf3, [this].concat(args)));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this3)), "state", {
-      data: [{
-        key: 1234,
-        id: 'Card 1',
-        imgsrc: 'http://placehold.it/100'
-      }, {
-        key: 5678,
-        id: 'Card 2',
-        imgsrc: 'http://placehold.it/100'
-      }]
-    });
-
-    return _this3;
-  }
-
   _createClass(App, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement(Form, null), _react.default.createElement(CardList, {
+      return _react.default.createElement("div", null, _react.default.createElement(_Form.default, {
+        onSubmit: this.createCard
+      }), _react.default.createElement(CardList, {
         cards: this.state.data
       }));
     }
@@ -24196,7 +24157,7 @@ function (_React$Component2) {
 
 _reactDom.default.render(_react.default.createElement(App, null), root);
 
-},{"./Card.jsx":21,"react":13,"react-dom":10}],21:[function(require,module,exports){
+},{"./Card.jsx":21,"./Form.jsx":22,"react":13,"react-dom":10}],21:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24242,8 +24203,9 @@ function (_React$Component) {
   _createClass(Card, [{
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement("h3", null, this.props.id), _react.default.createElement("img", {
-        src: this.props.imgsrc
+      return _react.default.createElement("div", null, _react.default.createElement("h3", null, this.props.login), _react.default.createElement("img", {
+        width: "75",
+        src: this.props.avatar_url
       }));
     }
   }]);
@@ -24253,8 +24215,140 @@ function (_React$Component) {
 
 exports.default = Card;
 Card.propTypes = {
-  id: _propTypes.default.string.isRequired,
-  imgsrc: _propTypes.default.string.isRequired
+  login: _propTypes.default.string.isRequired,
+  avatar_url: _propTypes.default.string.isRequired
 };
 
-},{"prop-types":6,"react":13}]},{},[20]);
+},{"prop-types":6,"react":13}],22:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _xhrPromise = _interopRequireDefault(require("./xhrPromise.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Form =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Form, _React$Component);
+
+  function Form() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, Form);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Form)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
+      userName: ""
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "submitAction", function (event) {
+      event.preventDefault();
+      var url = "https://api.github.com/users/" + _this.state.userName;
+      var create = _this.props.onSubmit;
+      (0, _xhrPromise.default)("GET", url).then(function (json) {
+        create(JSON.parse(json.response));
+      });
+
+      _this.setState({
+        userName: ''
+      });
+    });
+
+    return _this;
+  }
+
+  _createClass(Form, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return _react.default.createElement("form", {
+        onSubmit: this.submitAction
+      }, _react.default.createElement("input", {
+        value: this.state.userName,
+        onChange: function onChange(event) {
+          return _this2.setState({
+            userName: event.target.value
+          });
+        },
+        type: "text",
+        placeholder: "adamroddick"
+      }), _react.default.createElement("button", null, "Add"));
+    }
+  }]);
+
+  return Form;
+}(_react.default.Component);
+
+exports.default = Form;
+Form.propTypes = {};
+
+},{"./xhrPromise.jsx":23,"react":13}],23:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var makeRequest = function makeRequest(method, url) {
+  var xhr2 = new XMLHttpRequest();
+  return new Promise(function (resolve, reject) {
+    xhr2.onreadystatechange = function () {
+      if (xhr2.readyState !== 4) return;
+
+      if (xhr2.status >= 200 && xhr2.status < 300) {
+        // console.log("makeRequest success");
+        resolve(xhr2);
+      } else {
+        // console.log("makeRequest failed");
+        reject({
+          status: xhr2.status,
+          statusText: xhr2.statusText
+        });
+      }
+    };
+
+    xhr2.open(method, url);
+    xhr2.send();
+  });
+};
+
+var _default = makeRequest;
+exports.default = _default;
+
+},{}]},{},[20]);
