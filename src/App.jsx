@@ -1,22 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Message from './Message.jsx';
+// import Message from './Message.jsx';
 import Card from './Card.jsx';
 
 const root = document.querySelector('div#root');
-
-let data = [
-  {
-    key: 1234, // the key prop gives React a unique, immutable identifier of this object in the array
-    id: 'Card 1',
-    imgsrc: 'http://placehold.it/75'
-  },
-  {
-    key: 5678,
-    id: 'Card 2',
-    imgsrc: 'http://placehold.it/100'
-  }
-]
 
 const CardList = (props) => {
     return (
@@ -26,15 +13,48 @@ const CardList = (props) => {
     );
 }
 
+class Form extends React.Component {
+  submitAction = (event) => {
+    event.preventDefault();
+    console.log(this.userNameInput.value)
+
+  }
+  
+  render() {
+    return (
+      <form onSubmit={this.submitAction}>
+        <input ref={(input) => this.userNameInput = input} type="text" placeholder="Github username"></input>
+        <button>Add</button>
+      </form>
+    )
+  }
+}
+
 class App extends React.Component {
-  constructor(props) {
-    super(props)
+  state = {
+    data: [
+      {
+        key: 1234,
+        id: 'Card 1',
+        imgsrc: 'http://placehold.it/100'
+      },
+      {
+        key: 5678,
+        id: 'Card 2',
+        imgsrc: 'http://placehold.it/100'
+      }
+    ]
+  }
 
-    this.state = {
-
-    }
+  render() {
+    return (
+      <div>
+        <Form />
+        <CardList cards={this.state.data}/>
+      </div>
+    )
   }
 }
 
 //ReactDOM.render(<App cards={data}/>, root);
-ReactDOM.render(<CardList cards={data}/>, root);
+ReactDOM.render(<App />, root);
